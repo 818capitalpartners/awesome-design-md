@@ -1,44 +1,32 @@
 # 818 Capital Partners — conversion redesign package
 
-Private deliverable for **818 Capital Partners** (not part of the curated Awesome DESIGN.md collection).
+**Important:** v1 of the mock was a wireframe with the wrong visual system. **v2 matches your live brand** (navy / paper / gold / Cormorant / Inter / real property photos) and only changes conversion architecture.
 
-## Live preview (open this)
+## Live preview
 
 **https://blacks-buck-step-exit.trycloudflare.com/**
 
-Stable Vercel URL (updating): https://818-capital-redesign-mock-818capitalpartners-projects.vercel.app
-
-Or download `homepage-mock.html` from this folder and open it in your browser.
+Hard-refresh if you still see the old copper mock (`Cmd/Ctrl+Shift+R`).
 
 ## What’s in here
 
 | File | What it is |
 |------|------------|
-| [`DESIGN.md`](./DESIGN.md) | Design tokens, anti-patterns, page architecture, locked hero copy |
-| [`homepage-mock.html`](./homepage-mock.html) | Clickable homepage mock — tagline hero → Partner System → Dealroom capture |
-| [`specs/dealroom-form.md`](./specs/dealroom-form.md) | 5-field scenario form: validation, intent routing, thank-you, analytics |
+| [`DESIGN.md`](./DESIGN.md) | Production tokens + conversion IA |
+| [`homepage-mock.html`](./homepage-mock.html) | **v2** polished mock in your live visual language |
+| [`assets/img/`](./assets/img/) | Real property photos from your site |
+| [`specs/dealroom-form.md`](./specs/dealroom-form.md) | 5-field Dealroom form spec |
 
-## Strategy (locked decisions)
+## What stayed vs what changed
 
-1. **Hero tagline stays** — *The question isn't how many deals you've done. It's how many you could do, with the right partner.*
-2. **Differentiator = Partner System** — AI price/structure + Dealroom + multi-party sync, told as one rail
-3. **Primary CTA = Enter Dealroom** — Call secondary; chat/WhatsApp/book = recovery only
-4. **Brokers isolated** on `/brokers` with the same system language
+**Kept from your live site:** palette, type, pill buttons, eyebrows, letterhead rule, photography, tagline.
 
-## Preview the mock
+**Changed for conversion:** Partner System as the story spine, single primary CTA (Enter Dealroom), fewer competing doors, capture form beside FAQ.
 
-Open locally:
+## Local preview
 
 ```bash
-open 818-capital-partners/homepage-mock.html
-# or
-python3 -m http.server 8765 --directory 818-capital-partners
+cd 818-capital-partners
+python3 -m http.server 8765
+# open http://localhost:8765/homepage-mock.html
 ```
-
-Then visit `http://localhost:8765/homepage-mock.html`.
-
-## Build next
-
-- Wire `POST /api/dealroom/scenarios` per form spec
-- Mirror copy onto `/brokers` using DESIGN.md broker section
-- Social templates (funded card, before/after, system still) using the same tokens
