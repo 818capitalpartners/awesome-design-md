@@ -2,6 +2,15 @@
 
 Private deliverable for **818 Capital Partners** (not part of the curated Awesome DESIGN.md collection).
 
+## Live preview (open this)
+
+**https://petite-glasses-bow.loca.lt**
+
+If a localtunnel warning page appears, click **Continue**. This tunnel is temporary.
+
+Or open `homepage-mock.html` from this folder on your machine (download from GitHub → Open with browser).
+
+
 ## What’s in here
 
 | File | What it is |
