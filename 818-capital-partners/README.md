@@ -4,12 +4,11 @@ Private deliverable for **818 Capital Partners** (not part of the curated Awesom
 
 ## Live preview (open this)
 
-**https://petite-glasses-bow.loca.lt**
+**https://blacks-buck-step-exit.trycloudflare.com/**
 
-If a localtunnel warning page appears, click **Continue**. This tunnel is temporary.
+Stable Vercel URL (updating): https://818-capital-redesign-mock-818capitalpartners-projects.vercel.app
 
-Or open `homepage-mock.html` from this folder on your machine (download from GitHub → Open with browser).
-
+Or download `homepage-mock.html` from this folder and open it in your browser.
 
 ## What’s in here
 
