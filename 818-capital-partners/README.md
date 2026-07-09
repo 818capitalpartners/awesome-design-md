@@ -1,32 +1,40 @@
 # 818 Capital Partners — conversion redesign package
 
-**Important:** v1 was a bad wireframe. **v2 matches your live brand** (navy / paper / gold / Cormorant / Inter / real photos) and only changes conversion architecture.
+**v2** matched your live brand. **Hybrid v3** keeps the live site’s classy finance × AI UI craft and v2’s conversion spine.
 
 ## How to see it (pick one)
 
-### 1. Live preview links (try these first)
+### 1. Live preview links
 
-- **https://anymore-recruiting-wolf-public.trycloudflare.com/**
-- **https://644743a3ef2cf042-54-158-128-7.serveousercontent.com/**
-
-You should see a bronze bar: `v2 mock · your live brand system`.
+- **Element test (Live vs v2 vs Hybrid):** open `/ui-element-test.html` on the preview host
+- **Hybrid v3 mock:** open `/hybrid-v3.html` on the preview host
+- Hosts (try either):
+  - **https://anymore-recruiting-wolf-public.trycloudflare.com/**
+  - **https://644743a3ef2cf042-54-158-128-7.serveousercontent.com/**
 
 ### 2. Download and open (most reliable)
 
-1. Open: https://github.com/818capitalpartners/awesome-design-md/blob/cursor/818-capital-redesign-39bf/818-capital-partners/homepage-mock-standalone.html
-2. Click **⋯** → **Download**
-3. Double-click the file — opens in your browser (images load from your live site)
+| File | Open this for |
+|------|----------------|
+| [`ui-element-test.html`](https://github.com/818capitalpartners/awesome-design-md/blob/cursor/818-capital-redesign-39bf/818-capital-partners/ui-element-test.html) | Side-by-side UI verdicts |
+| [`hybrid-v3-standalone.html`](https://github.com/818capitalpartners/awesome-design-md/blob/cursor/818-capital-redesign-39bf/818-capital-partners/hybrid-v3-standalone.html) | Full hybrid homepage mock |
+| [`homepage-mock-standalone.html`](https://github.com/818capitalpartners/awesome-design-md/blob/cursor/818-capital-redesign-39bf/818-capital-partners/homepage-mock-standalone.html) | Earlier v2 mock |
+
+Click **⋯ → Download**, then open in your browser (images load from your live site).
 
 ## What’s in here
 
 | File | What it is |
 |------|------------|
-| `homepage-mock-standalone.html` | **Open this** — single file, works offline-ish |
-| `homepage-mock.html` | Same mock with local `assets/img/` paths |
+| `ui-element-test.html` | **Start here** — Live vs v2 vs Hybrid per UI element |
+| `hybrid-v3-standalone.html` | Hybrid homepage (recommended direction) |
+| `hybrid-v3.html` | Same hybrid (repo-relative paths if any) |
+| `homepage-mock-standalone.html` | v2 conversion mock |
 | `DESIGN.md` | Production tokens + conversion IA |
 | `specs/dealroom-form.md` | 5-field Dealroom form spec |
 
-## What stayed vs changed
+## Hybrid verdict (finance × AI × classy)
 
-**Kept:** your palette, type, pill buttons, photography, tagline.  
-**Changed:** Partner System spine, single primary CTA (Enter Dealroom), fewer competing doors.
+**Keep from live:** status/ticker, AI scenario desk UI, eyebrow + letterhead rule, large tabular stats, photography, pill craft.  
+**Keep from v2:** single Enter Dealroom CTA, Partner System naming, 5-field capture, demoted recovery links.  
+**Hybrid:** live desk UI inside Partner System layers; live-scale speed stats; ticker above nav; hero photo + scenario desk aside.
