@@ -41,15 +41,25 @@ button,input,select{font:inherit}
 .mockbar{background:var(--bronze);color:#fff;text-align:center;font-size:.6875rem;letter-spacing:.12em;text-transform:uppercase;padding:.4rem var(--pad);font-weight:600}
 .mockbar a{color:#fff;text-decoration:underline;text-underline-offset:2px;margin-left:.5rem;font-weight:500;letter-spacing:.06em}
 
-/* Live: status strip */
-.status{background:var(--ink-deep);color:rgba(255,255,255,.7);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase;overflow:hidden}
-.status-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:36px;padding:.4rem 0}
-.chip{display:inline-flex;align-items:center;gap:.4rem;white-space:nowrap}
-.chip .dot{width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(26,135,84,.25)}
-.ticker{display:flex;gap:1.75rem;overflow:hidden;mask-image:linear-gradient(90deg,transparent,black 8%,black 92%,transparent)}
-.ticker-track{display:flex;gap:1.75rem;animation:tick 28s linear infinite;white-space:nowrap}
-.ticker strong{color:var(--gold-line);font-weight:600}
+/* Top stack: moving funded ticker (liked from Design) + utility bar (live site) */
+.ticker-bar{background:var(--ink-deep);color:rgba(255,255,255,.72);font-size:.6875rem;letter-spacing:.06em;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.06)}
+.ticker{display:flex;overflow:hidden;mask-image:linear-gradient(90deg,transparent,black 4%,black 96%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,black 4%,black 96%,transparent)}
+.ticker-track{display:flex;align-items:center;gap:2rem;padding:.55rem 0;width:max-content;animation:tick 55s linear infinite;white-space:nowrap}
+.ticker-item{display:inline-flex;align-items:center;gap:.55rem;text-transform:uppercase}
+.ticker-item .live-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px rgba(176,138,62,.22);flex-shrink:0}
+.ticker-item .label{color:var(--gold-line);font-weight:600}
+.ticker-item strong{color:#fff;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.02em;text-transform:none}
+.ticker-item .sep{color:rgba(255,255,255,.28)}
 @keyframes tick{to{transform:translateX(-50%)}}
+.utility{background:var(--navy-900);color:rgba(255,255,255,.7);font-size:.6875rem;letter-spacing:.06em}
+.utility-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:34px;padding:.35rem 0}
+.chip{display:inline-flex;align-items:center;gap:.4rem;white-space:nowrap;text-transform:uppercase;letter-spacing:.08em}
+.chip .dot{width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(26,135,84,.25);animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(26,135,84,.18)}50%{box-shadow:0 0 0 5px rgba(26,135,84,.08)}}
+.utility-links{display:flex;align-items:center;gap:1.25rem}
+.utility-links a{color:rgba(255,255,255,.7)}
+.utility-links a:hover{color:#fff}
+@media(max-width:640px){.utility-links .hide-sm{display:none}}
 
 /* Nav */
 .nav{position:sticky;top:0;z-index:50;background:rgba(251,249,244,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule)}
@@ -192,26 +202,27 @@ h2{font-family:var(--font-sans);font-size:clamp(1.85rem,3vw,2.75rem);font-weight
 .sticky{position:fixed;bottom:0;left:0;right:0;z-index:60;display:grid;grid-template-columns:1fr 1fr;gap:.5rem;padding:.65rem var(--pad) calc(.65rem + env(safe-area-inset-bottom));background:rgba(251,249,244,.95);backdrop-filter:blur(10px);border-top:1px solid var(--rule);transition:transform .2s,opacity .2s}
 .sticky.is-hidden{transform:translateY(110%);opacity:0;pointer-events:none}
 @media(min-width:900px){.sticky{display:none}.footer{padding-bottom:3rem}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.ticker-track{animation:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.ticker-track{animation:none}.chip .dot{animation:none}}
 </style>
 </head>
 <body>
-<div class="mockbar">hybrid v3 · live classy AI UI + conversion spine <a href="ui-element-test.html">see element test</a></div>
+<div class="mockbar">hybrid v3 · live marketing site + moving funded ticker <a href="ui-element-test.html">element test</a></div>
 
-<div class="status">
-  <div class="wrap status-inner">
+<!-- Continuous moving tape (liked from Design) — above the live utility/nav stack -->
+<div class="ticker-bar" role="region" aria-label="Recently funded deals">
+  <div class="ticker">
+    <div class="ticker-track" id="ticker-track">
+      <!-- filled by script from live funded-deal data; duplicated for seamless loop -->
+    </div>
+  </div>
+</div>
+
+<div class="utility">
+  <div class="wrap utility-inner">
     <div class="chip"><span class="dot"></span> Open · funding now · 48 states · NMLS 2832335</div>
-    <div class="ticker" aria-hidden="true">
-      <div class="ticker-track">
-        <span>Funded · <strong>$1.46M</strong> · Flip · Colleyville · 12d</span>
-        <span>Funded · <strong>$3.15M</strong> · MF · Fort Myers</span>
-        <span>Funded · <strong>$760K</strong> · STR · Sedona</span>
-        <span>Funded · <strong>$195K</strong> · Flip · Pensacola</span>
-        <span>Funded · <strong>$1.46M</strong> · Flip · Colleyville · 12d</span>
-        <span>Funded · <strong>$3.15M</strong> · MF · Fort Myers</span>
-        <span>Funded · <strong>$760K</strong> · STR · Sedona</span>
-        <span>Funded · <strong>$195K</strong> · Flip · Pensacola</span>
-      </div>
+    <div class="utility-links">
+      <a href="tel:19179939194">(917) 993-9194</a>
+      <a class="hide-sm" href="mailto:deals@818capitalpartners.com">deals@818capitalpartners.com</a>
     </div>
   </div>
 </div>
@@ -474,6 +485,30 @@ h2{font-family:var(--font-sans);font-size:clamp(1.85rem,3vw,2.75rem);font-weight
 
 <script>
 (function(){
+  /* Live funded deals from 818-marketing-site (closed-deals feed) — continuous marquee */
+  const FUNDED=[
+    {dealValue:"$195,000",loanType:"Fix & Flip",city:"Pensacola",state:"FL"},
+    {dealValue:"$203,000",loanType:"Fix & Flip",city:"Burleson",state:"TX"},
+    {dealValue:"$230,787",loanType:"Fix & Flip",city:"Fort Worth",state:"TX"},
+    {dealValue:"$525,000",loanType:"Fix & Flip",city:"Washington",state:"DC"},
+    {dealValue:"$415,000",loanType:"Fix & Flip",city:"Silver Spring",state:"MD"},
+    {dealValue:"$720,000",loanType:"DSCR Cash-Out",city:"St. Petersburg",state:"FL"},
+    {dealValue:"$385,000",loanType:"DSCR Cash-Out",city:"Pigeon Forge",state:"TN"},
+    {dealValue:"$445,000",loanType:"DSCR Cash-Out",city:"Nashville",state:"TN"},
+    {dealValue:"$3,150,000",loanType:"Multifamily",city:"Fort Myers",state:"FL"},
+    {dealValue:"$1,850,000",loanType:"Commercial Refi",city:"White Settlement",state:"TX"},
+    {dealValue:"$1,456,500",loanType:"Fix & Flip",city:"Colleyville",state:"TX"},
+    {dealValue:"$759,750",loanType:"STR / DSCR",city:"Sedona",state:"AZ"},
+    {dealValue:"$1,017,700",loanType:"Fix & Flip",city:"Washington",state:"DC"},
+    {dealValue:"$157,500",loanType:"DSCR",city:"Raytown",state:"MO"}
+  ];
+  const track=document.getElementById('ticker-track');
+  if(track){
+    const item=(d)=>`<span class="ticker-item"><span class="live-dot" aria-hidden="true"></span><span class="label">Funded</span><span class="sep">·</span><strong>${d.dealValue}</strong><span class="sep">·</span><span>${d.loanType}</span><span class="sep">·</span><span>${d.city}, ${d.state}</span></span>`;
+    const html=FUNDED.map(item).join('');
+    track.innerHTML=html+html; /* duplicate for seamless -50% loop */
+  }
+
   const form=document.getElementById('scenario-form');
   const sticky=document.getElementById('sticky');
   const capture=document.getElementById('capture');

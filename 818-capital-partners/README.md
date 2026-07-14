@@ -1,43 +1,39 @@
 # 818 Capital Partners — conversion redesign package
 
-**v2** matched your live brand. **Hybrid v3** keeps the live site’s classy finance × AI UI craft and v2’s conversion spine.
+**Source of truth for the live site:** GitHub `818capitalpartners/818-marketing-site` (www.818capitalpartners.com).  
+**Claude Design** is exploration only — not the final live design. From it we keep **one** idea: the continuous moving funded ticker above the top.
 
-## See it now (fresh links)
+## What’s new in this pass
 
-### Option A — Live preview (open these)
+- **Full-bleed moving funded ticker** above the utility bar + nav (live deal data, continuous marquee).
+- Live utility row kept under it (Open · funding now + phone / email).
+- Drop-in patch for the marketing site: `marketing-site-patches/FundedTickerMarquee.tsx`.
 
-1. **Start here (menu):** https://amanda-orders-mediterranean-jam.trycloudflare.com/
-2. **UI element test:** https://amanda-orders-mediterranean-jam.trycloudflare.com/ui-element-test.html
-3. **Hybrid v3 homepage:** https://amanda-orders-mediterranean-jam.trycloudflare.com/hybrid-v3.html
+## Preview
 
-Backup tunnel: https://silent-banks-hide.loca.lt/ (if it asks for a password, click through / use Cloudflare instead)
+**CDN (no tunnel):**
+- Hybrid: https://raw.githack.com/818capitalpartners/awesome-design-md/cursor/818-capital-redesign-39bf/818-capital-partners/hybrid-v3-standalone.html
+- Element test: https://raw.githack.com/818capitalpartners/awesome-design-md/cursor/818-capital-redesign-39bf/818-capital-partners/ui-element-test.html
 
-### Option B — No tunnel (CDN — most reliable)
+**Download:** open the file on GitHub → ⋯ → Download → open locally.
 
-- **Element test:** https://raw.githack.com/818capitalpartners/awesome-design-md/cursor/818-capital-redesign-39bf/818-capital-partners/ui-element-test.html
-- **Hybrid v3:** https://raw.githack.com/818capitalpartners/awesome-design-md/cursor/818-capital-redesign-39bf/818-capital-partners/hybrid-v3-standalone.html
+## Land ticker on production
 
-### Option C — Download and open on your computer
+This workspace cannot write to the private `818-marketing-site` repo.  
+Open a cloud agent on **`818-marketing-site`** and point it at `818-capital-partners/marketing-site-patches/`.
 
-1. Open: https://github.com/818capitalpartners/awesome-design-md/blob/cursor/818-capital-redesign-39bf/818-capital-partners/hybrid-v3-standalone.html
-2. Click **⋯ → Download**
-3. Double-click the file — opens in Chrome/Safari (images load from your live site)
+## Package
 
-Same for `ui-element-test.html` in that folder.
+| File | What |
+|------|------|
+| `hybrid-v3-standalone.html` | Recommended mock (live brand + moving ticker + Dealroom spine) |
+| `ui-element-test.html` | Live vs v2 vs Hybrid element matrix |
+| `marketing-site-patches/` | React marquee for the live Next.js site |
+| `DESIGN.md` | Tokens + conversion IA |
+| `specs/dealroom-form.md` | 5-field Dealroom form |
 
-## What’s in here
+## Locked
 
-| File | What it is |
-|------|------------|
-| `ui-element-test.html` | **Start here** — Live vs v2 vs Hybrid per UI element |
-| `hybrid-v3-standalone.html` | Hybrid homepage (recommended direction) |
-| `hybrid-v3.html` | Same hybrid |
-| `homepage-mock-standalone.html` | v2 conversion mock |
-| `DESIGN.md` | Production tokens + conversion IA |
-| `specs/dealroom-form.md` | 5-field Dealroom form spec |
-
-## Hybrid verdict (finance × AI × classy)
-
-**Keep from live:** status/ticker, AI scenario desk UI, eyebrow + letterhead rule, large tabular stats, photography, pill craft.  
-**Keep from v2:** single Enter Dealroom CTA, Partner System naming, 5-field capture, demoted recovery links.  
-**Hybrid:** live desk UI inside Partner System layers; live-scale speed stats; ticker above nav; hero photo + scenario desk aside.
+- Hero tagline unchanged  
+- Brokers stay on `/brokers`  
+- Single primary CTA: Enter Dealroom  
