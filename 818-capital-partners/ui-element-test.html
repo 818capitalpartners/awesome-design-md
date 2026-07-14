@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>818 UI Element Test — Live vs v2 vs Hybrid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --paper:#fbf9f4;--warm-100:#f1ebe0;--warm-200:#e5dec8;--rule:#dcd3bc;
+  --navy-900:#0a1628;--navy-800:#102a43;--navy-700:#1a2b42;--ink-deep:#0e1a24;
+  --charcoal:#262626;--mute:#6b6b66;--gold:#b08a3e;--bronze:#997436;--gold-line:#efd99a;
+  --ok:#1a8754;--accent:#2e75b6;
+  --font-sans:Inter,system-ui,sans-serif;--font-serif:"Cormorant Garamond",Georgia,serif;
+}
+*{box-sizing:border-box}body{margin:0;font-family:var(--font-sans);background:var(--paper);color:var(--charcoal);-webkit-font-smoothing:antialiased}
+a{color:inherit}.wrap{width:min(100% - 3rem,1100px);margin:0 auto}
+.top{background:var(--navy-900);color:#fff;padding:1rem 1.5rem;position:sticky;top:0;z-index:20}
+.top h1{margin:0;font-size:1rem;font-weight:600;letter-spacing:.04em}
+.top p{margin:.35rem 0 0;font-size:.8125rem;color:rgba(255,255,255,.65);font-weight:300}
+.navt{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:.85rem}
+.navt a{font-size:.75rem;padding:.4rem .75rem;border-radius:9999px;border:1px solid rgba(255,255,255,.25);color:#fff;text-decoration:none}
+.navt a:hover{background:#fff;color:var(--navy-900)}
+.intro{padding:2.5rem 0 1rem}
+.intro h2{font-size:1.75rem;color:var(--navy-900);margin:0 0 .75rem;letter-spacing:-.02em}
+.intro p{margin:0;color:var(--mute);font-weight:300;max-width:42rem;line-height:1.6}
+.matrix{margin:2rem 0 4rem;display:grid;gap:1.25rem}
+.row{display:grid;gap:1rem;background:#fff;border:1px solid var(--warm-200);border-radius:.75rem;padding:1.25rem;overflow:hidden}
+@media(min-width:900px){.row{grid-template-columns:11rem 1fr 1fr 1fr}}
+.row-label{font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--bronze);padding-top:.25rem}
+.col h3{margin:0 0 .65rem;font-size:.6875rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.panel{border:1px solid var(--warm-200);border-radius:.5rem;padding:1rem;min-height:140px;background:var(--paper);position:relative}
+.panel.dark{background:var(--navy-900);border-color:transparent;color:#fff}
+.panel.ink{background:var(--ink-deep);border-color:transparent;color:#fff}
+.verdict{margin-top:.65rem;font-size:.75rem;line-height:1.45;padding:.5rem .65rem;border-radius:.35rem;background:var(--warm-100);color:var(--navy-900)}
+.verdict.win{background:rgba(26,135,84,.12);color:#146b42;font-weight:500}
+.verdict.lose{background:rgba(192,57,43,.08);color:#8a2e22}
+.verdict.tie{background:rgba(46,117,182,.1);color:#1f4e78}
+.eyebrow{font-size:.625rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--bronze);margin:0 0 .5rem}
+.editorial{font-family:var(--font-serif);font-style:italic;font-weight:400}
+.rule{width:48px;height:2px;background:var(--bronze);margin:.75rem 0;border:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:.55rem 1.35rem;border-radius:9999px;font-size:.75rem;font-weight:600;border:1px solid transparent;text-decoration:none}
+.btn-primary{background:var(--navy-900);color:#fff}
+.btn-white{background:#fff;color:var(--navy-900)}
+.btn-ghost{border-color:rgba(255,255,255,.4);color:#fff}
+.mono{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+.ticker{display:flex;gap:1.25rem;overflow:hidden;font-size:.625rem;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;color:rgba(255,255,255,.55);padding:.35rem 0}
+.ticker strong{color:var(--gold-line)}
+.chip{display:inline-flex;align-items:center;gap:.4rem;font-size:.625rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.2);padding:.3rem .55rem;border-radius:9999px}
+.chip .dot{width:6px;height:6px;border-radius:50%;background:var(--ok)}
+.desk{background:#121820;border:1px solid rgba(255,255,255,.1);border-radius:.5rem;padding:.75rem;font-size:.6875rem}
+.desk .hd{display:flex;justify-content:space-between;color:rgba(255,255,255,.5);margin-bottom:.5rem;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase}
+.desk .r{display:flex;justify-content:space-between;padding:.35rem 0;border-top:1px solid rgba(255,255,255,.08)}
+.desk .r span:last-child{color:var(--gold-line);font-variant-numeric:tabular-nums}
+.stat{font-size:1.75rem;font-weight:600;letter-spacing:-.03em;color:var(--navy-900);line-height:1}
+.stat small{display:block;font-size:.625rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-top:.35rem}
+.layer-num{font-size:.65rem;letter-spacing:.16em;color:var(--gold);font-weight:600}
+.footer-note{padding:2rem 0 4rem;color:var(--mute);font-size:.8125rem;font-weight:300}
+.footer-note a{color:var(--navy-900);font-weight:600}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="wrap">
+    <h1>818 UI element test — finance × AI × classy</h1>
+    <p>Side-by-side: Live site patterns vs v2 mock vs recommended hybrid. Pick what feels right per element.</p>
+    <div class="navt">
+      <a href="#matrix">Element matrix</a>
+      <a href="hybrid-v3.html">Open hybrid v3 mock →</a>
+      <a href="index.html">v2 mock</a>
+      <a href="https://www.818capitalpartners.com/" target="_blank" rel="noopener">Live site</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap intro" id="matrix">
+  <h2>Element-by-element verdict</h2>
+  <p>Goal: keep the live site’s classy finance + AI craft, use v2’s conversion spine (tagline hero → Partner System → Dealroom). Hybrid column is what ships in v3.</p>
+</div>
+
+<div class="wrap matrix">
+
+  <!-- 1 Status / ticker -->
+  <article class="row">
+    <div class="row-label">01<br/>Status &amp; ticker</div>
+    <div class="col">
+      <h3>Live (marketing site)</h3>
+      <div class="panel dark">
+        <div class="chip"><span class="dot"></span> Funded · $195K · Flip · Pensacola</div>
+        <p style="margin:.65rem 0 0;font-size:.75rem;color:rgba(255,255,255,.55);font-weight:300">One deal at a time, rotates every 5s + pulse. Utility bar with phone/email.</p>
+      </div>
+      <div class="verdict tie">Solid desk signal — but not a moving tape</div>
+    </div>
+    <div class="col">
+      <h3>Claude Design (not live)</h3>
+      <div class="panel"><p style="margin:0;font-size:.8125rem;color:var(--mute);font-weight:300">Exploration only. Liked: continuous ticker moving above the top. Not the production homepage.</p></div>
+      <div class="verdict tie">Keep the motion idea only</div>
+    </div>
+    <div class="col">
+      <h3>Hybrid → ship</h3>
+      <div class="panel dark">
+        <div class="ticker" style="margin:0"><span>Funded · <strong>$3.15M</strong> · MF · Fort Myers</span><span>Funded · <strong>$1.46M</strong> · Flip · Colleyville</span></div>
+        <div class="chip" style="margin-top:.75rem"><span class="dot"></span> Open · funding now</div>
+      </div>
+      <div class="verdict win">Full-bleed moving marquee above live utility bar + nav</div>
+    </div>
+  </article>
+
+  <!-- 2 Hero type -->
+  <article class="row">
+    <div class="row-label">02<br/>Hero type</div>
+    <div class="col">
+      <h3>Live</h3>
+      <div class="panel dark">
+        <p class="eyebrow" style="color:var(--gold-line)">818 Capital</p>
+        <p class="editorial" style="margin:0;font-size:1.35rem;line-height:1.15;color:#fff">…with the <em style="color:var(--gold-line)">right partner.</em></p>
+      </div>
+      <div class="verdict win">Cormorant italic = class. Keep.</div>
+    </div>
+    <div class="col">
+      <h3>v2</h3>
+      <div class="panel dark">
+        <p style="margin:0;font-family:var(--font-serif);font-size:1.35rem;line-height:1.1;color:#fff">Same tagline, full Cormorant block</p>
+      </div>
+      <div class="verdict tie">Same family — good. Keep locked tagline.</div>
+    </div>
+    <div class="col">
+      <h3>Hybrid</h3>
+      <div class="panel dark">
+        <p class="eyebrow" style="color:var(--gold-line)">818 Capital</p>
+        <p class="editorial" style="margin:0;font-size:1.25rem;color:#fff">Tagline locked · italic stress on <em style="color:var(--gold-line)">right partner</em></p>
+      </div>
+      <div class="verdict win">Live editorial stress + v2 single CTA</div>
+    </div>
+  </article>
+
+  <!-- 3 AI desk UI -->
+  <article class="row">
+    <div class="row-label">03<br/>AI desk UI</div>
+    <div class="col">
+      <h3>Live</h3>
+      <div class="panel ink">
+        <div class="desk">
+          <div class="hd"><span>Scenario · Dallas · $620K</span><span>8.2s</span></div>
+          <div class="r"><span>DSCR</span><span>7.25% · 75 LTV</span></div>
+          <div class="r"><span>Bridge</span><span>9.5% · 65 LTV</span></div>
+          <div class="r"><span>STR</span><span>8.1% · 70 LTV</span></div>
+        </div>
+      </div>
+      <div class="verdict win">This is the finance×AI signature — keep as proof, not a gadget tour</div>
+    </div>
+    <div class="col">
+      <h3>v2</h3>
+      <div class="panel"><p style="margin:0;font-size:.8125rem;color:var(--mute);font-weight:300">Text layers only (Price / Structure / Room / Sync). Clear, but less “AI desk.”</p></div>
+      <div class="verdict lose">Loses the product feel</div>
+    </div>
+    <div class="col">
+      <h3>Hybrid</h3>
+      <div class="panel ink">
+        <p class="layer-num" style="margin:0 0 .35rem">01 · Price</p>
+        <div class="desk">
+          <div class="hd"><span>Scenario desk</span><span>live</span></div>
+          <div class="r"><span>DSCR</span><span>7.25%</span></div>
+          <div class="r"><span>Bridge</span><span>9.5%</span></div>
+        </div>
+      </div>
+      <div class="verdict win">Embed live desk UI inside Partner System layers</div>
+    </div>
+  </article>
+
+  <!-- 4 Letterhead / section chrome -->
+  <article class="row">
+    <div class="row-label">04<br/>Section chrome</div>
+    <div class="col">
+      <h3>Live</h3>
+      <div class="panel">
+        <p class="eyebrow">The Platform · 818 AI</p>
+        <p style="margin:0;font-weight:600;color:var(--navy-900)">How a 14-day close happens</p>
+        <hr class="rule" />
+      </div>
+      <div class="verdict win">Eyebrow + letterhead rule = institutional class</div>
+    </div>
+    <div class="col">
+      <h3>v2</h3>
+      <div class="panel">
+        <p class="eyebrow">The Partner System</p>
+        <p style="margin:0;font-weight:600;color:var(--navy-900)">Desk that prices, structures, syncs</p>
+        <hr class="rule" />
+      </div>
+      <div class="verdict tie">Same chrome — good. Better headline job.</div>
+    </div>
+    <div class="col">
+      <h3>Hybrid</h3>
+      <div class="panel">
+        <p class="eyebrow">The Partner System · 818 AI</p>
+        <p style="margin:0;font-weight:600;color:var(--navy-900)">Prices, structures, and syncs the file</p>
+        <hr class="rule" />
+      </div>
+      <div class="verdict win">Live chrome + v2 system naming</div>
+    </div>
+  </article>
+
+  <!-- 5 Stats -->
+  <article class="row">
+    <div class="row-label">05<br/>Proof stats</div>
+    <div class="col">
+      <h3>Live</h3>
+      <div class="panel" style="display:flex;gap:1.25rem">
+        <div><div class="stat">$184M</div><small>Funded</small></div>
+        <div><div class="stat">17d</div><small>Median</small></div>
+        <div><div class="stat">62%</div><small>Repeat</small></div>
+      </div>
+      <div class="verdict win">Large tabular stats feel like a desk, not marketing fluff</div>
+    </div>
+    <div class="col">
+      <h3>v2</h3>
+      <div class="panel"><p style="margin:0;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)"><strong style="color:var(--navy-900)">8s</strong> AI · <strong style="color:var(--navy-900)">24h</strong> sheet · <strong style="color:var(--navy-900)">17d</strong> close</p></div>
+      <div class="verdict lose">Too small — underplays the machine</div>
+    </div>
+    <div class="col">
+      <h3>Hybrid</h3>
+      <div class="panel" style="display:flex;gap:1.25rem">
+        <div><div class="stat">8s</div><small>AI price</small></div>
+        <div><div class="stat">24h</div><small>Term sheet</small></div>
+        <div><div class="stat">17d</div><small>Median</small></div>
+      </div>
+      <div class="verdict win">Live scale, v2 metrics (speed of the system)</div>
+    </div>
+  </article>
+
+  <!-- 6 CTA -->
+  <article class="row">
+    <div class="row-label">06<br/>CTA pattern</div>
+    <div class="col">
+      <h3>Live</h3>
+      <div class="panel" style="display:flex;flex-wrap:wrap;gap:.4rem">
+        <span class="btn btn-primary">Apply Now</span>
+        <span class="btn" style="border:1px solid var(--warm-200)">Run qualifier</span>
+        <span class="btn" style="border:1px solid var(--warm-200)">Chat</span>
+        <span class="btn" style="border:1px solid var(--warm-200)">WhatsApp</span>
+      </div>
+      <div class="verdict lose">Six doors — generous, weak conversion</div>
+    </div>
+    <div class="col">
+      <h3>v2</h3>
+      <div class="panel" style="display:flex;gap:.5rem">
+        <span class="btn btn-primary">Enter Dealroom</span>
+        <span class="btn" style="border:1px solid rgba(10,22,40,.3)">Call</span>
+      </div>
+      <div class="verdict win">One primary into the system</div>
+    </div>
+    <div class="col">
+      <h3>Hybrid</h3>
+      <div class="panel dark" style="display:flex;gap:.5rem">
+        <span class="btn btn-white">Enter Dealroom</span>
+        <span class="btn btn-ghost">Call the desk</span>
+      </div>
+      <div class="verdict win">v2 CTA + live pill craft</div>
+    </div>
+  </article>
+
+  <!-- 7 Photography -->
+  <article class="row">
+    <div class="row-label">07<br/>Photography</div>
+    <div class="col">
+      <h3>Live</h3>
+      <div class="panel" style="padding:0;overflow:hidden;min-height:120px">
+        <img src="https://www.818capitalpartners.com/just-funded/colleyville-flip-before.jpg" alt="" style="width:100%;height:120px;object-fit:cover;display:block" />
+      </div>
+      <div class="verdict win">Real assets = trust. Keep full-bleed hero + BA</div>
+    </div>
+    <div class="col">
+      <h3>v2</h3>
+      <div class="panel" style="padding:0;overflow:hidden;min-height:120px">
+        <img src="https://www.818capitalpartners.com/brand/properties/PROMPT-30_2771-Royal-Palm-Ave.jpg" alt="" style="width:100%;height:120px;object-fit:cover;display:block" />
+      </div>
+      <div class="verdict tie">Same library — good. Keep.</div>
+    </div>
+    <div class="col">
+      <h3>Hybrid</h3>
+      <div class="panel" style="padding:0;overflow:hidden;min-height:120px;position:relative">
+        <img src="https://www.818capitalpartners.com/brand/properties/PROMPT-30_2771-Royal-Palm-Ave.jpg" alt="" style="width:100%;height:120px;object-fit:cover;display:block" />
+        <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,22,40,.75),transparent)"></div>
+      </div>
+      <div class="verdict win">Live photo + navy scrim + Dealroom CTA</div>
+    </div>
+  </article>
+
+  <!-- 8 Form -->
+  <article class="row">
+    <div class="row-label">08<br/>Capture</div>
+    <div class="col">
+      <h3>Live</h3>
+      <div class="panel"><p style="margin:0;font-size:.8125rem;color:var(--mute);font-weight:300">Six path picker at bottom — Apply / rate / chat / WhatsApp / call / book</p></div>
+      <div class="verdict lose">Paralysis · dilutes Dealroom</div>
+    </div>
+    <div class="col">
+      <h3>v2</h3>
+      <div class="panel">
+        <p class="eyebrow">Run your scenario</p>
+        <div style="height:28px;border:1px solid var(--warm-200);border-radius:.25rem;margin-bottom:.4rem;background:#fff"></div>
+        <div style="height:28px;border:1px solid var(--warm-200);border-radius:.25rem;margin-bottom:.4rem;background:#fff"></div>
+        <span class="btn btn-primary">Enter Dealroom</span>
+      </div>
+      <div class="verdict win">5-field soft quote into the room</div>
+    </div>
+    <div class="col">
+      <h3>Hybrid</h3>
+      <div class="panel">
+        <p class="eyebrow">Enter Dealroom</p>
+        <div style="height:28px;border:1px solid var(--warm-200);border-radius:.25rem;margin-bottom:.4rem;background:#fff"></div>
+        <span class="btn btn-primary">Get soft read</span>
+        <p style="margin:.5rem 0 0;font-size:.65rem;color:var(--mute)">Recovery: WhatsApp · Book 15 min</p>
+      </div>
+      <div class="verdict win">v2 form + live recovery demoted</div>
+    </div>
+  </article>
+
+</div>
+
+<div class="wrap footer-note">
+  <p><strong>Summary:</strong> Live wins on ticker, AI desk UI, letterhead chrome, and stat scale. v2 wins on CTA focus and capture. Hybrid v3 merges both.</p>
+  <p style="margin-top:1rem"><a href="hybrid-v3.html">Open the hybrid v3 homepage mock →</a></p>
+</div>
+</body>
+</html>
