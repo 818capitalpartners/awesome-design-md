@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>818 Capital — Conversion Redesign (v2)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --paper: #fbf9f4;
+  --warm-100: #f1ebe0;
+  --warm-200: #e5dec8;
+  --rule: #dcd3bc;
+  --navy-900: #0a1628;
+  --navy-800: #102a43;
+  --navy-700: #1a2b42;
+  --ink-deep: #0e1a24;
+  --charcoal: #262626;
+  --mute: #6b6b66;
+  --gold: #b08a3e;
+  --bronze: #997436;
+  --gold-line: #efd99a;
+  --white: #fff;
+  --ok: #1a8754;
+  --font-sans: Inter, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --max: 1200px;
+  --pad: clamp(1.5rem, 4vw, 4rem);
+  --sec: clamp(5rem, 12vw, 9rem);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--font-sans);background:var(--paper);color:var(--charcoal);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit}
+.wrap{width:min(100% - 2*var(--pad), var(--max));margin-inline:auto}
+.eyebrow{font-size:.6875rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--bronze);margin:0 0 .85rem}
+.editorial{font-family:var(--font-serif);font-style:italic;font-weight:400;letter-spacing:-.012em}
+.rule{width:64px;height:2px;background:var(--bronze);margin:1.25rem 0 0;border:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:.75rem 2rem;border-radius:9999px;font-size:.875rem;font-weight:600;border:1px solid transparent;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.btn-primary{background:var(--navy-900);color:var(--white)}
+.btn-primary:hover{background:var(--navy-700)}
+.btn-secondary{background:transparent;color:var(--navy-900);border-color:rgba(10,22,40,.3)}
+.btn-secondary:hover{background:var(--navy-900);color:#fff;border-color:var(--navy-900)}
+.btn-on-dark{color:#fff;border-color:rgba(255,255,255,.4)}
+.btn-on-dark:hover{background:#fff;color:var(--navy-900);border-color:#fff}
+.btn-white{background:#fff;color:var(--navy-900)}
+.btn-white:hover{background:var(--warm-100)}
+.btn-block{width:100%}
+.cta{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.75rem}
+.note{font-size:.75rem;color:var(--mute);margin-top:.85rem}
+.mockbar{background:var(--bronze);color:#fff;text-align:center;font-size:.6875rem;letter-spacing:.12em;text-transform:uppercase;padding:.45rem var(--pad);font-weight:600}
+
+/* Nav */
+.nav{position:sticky;top:0;z-index:50;background:rgba(251,249,244,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;min-height:68px;gap:1rem}
+.brand{display:flex;align-items:center;gap:.65rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:.9rem;color:var(--navy-900)}
+.brand img{width:28px;height:28px;object-fit:contain}
+.nav-links{display:none;gap:1.5rem;list-style:none;margin:0;padding:0;font-size:.8125rem;color:var(--mute)}
+.nav-links a:hover{color:var(--navy-900)}
+.nav-links .quiet{opacity:.65}
+.nav-actions{display:flex;align-items:center;gap:.75rem}
+.nav-phone{display:none;font-size:.8125rem;color:var(--mute)}
+@media(min-width:900px){.nav-links{display:flex}.nav-phone{display:inline}}
+
+/* Hero — full bleed photo */
+.hero{position:relative;min-height:min(92vh,860px);display:grid;align-items:end;color:#fff;isolation:isolate;overflow:hidden}
+.hero-media{position:absolute;inset:0;z-index:-2}
+.hero-media img{width:100%;height:100%;object-fit:cover;transform:scale(1.02);animation:drift 18s ease-in-out alternate infinite}
+@keyframes drift{to{transform:scale(1.06)}}
+.hero-scrim{position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,rgba(10,22,40,.88) 0%,rgba(10,22,40,.55) 48%,rgba(14,26,36,.72) 100%)}
+.hero-inner{width:min(100% - 2*var(--pad), var(--max));margin-inline:auto;padding:6rem 0 4.5rem;max-width:42rem}
+.hero-brand{font-size:clamp(1.1rem,2vw,1.35rem);font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin:0 0 1.35rem;color:rgba(255,255,255,.92)}
+.hero h1{font-family:var(--font-serif);font-weight:400;font-size:clamp(2.35rem,5.2vw,4.1rem);line-height:1.08;letter-spacing:-.02em;margin:0;max-width:16ch;color:#fff}
+.hero h1 em{font-style:italic;color:var(--gold-line)}
+.hero-lede{margin:1.25rem 0 0;font-size:1.0625rem;line-height:1.6;font-weight:300;color:rgba(255,255,255,.78);max-width:34rem}
+.hero .cta{animation:fadeUp .7s ease .1s both}
+.hero-inner{animation:fadeUp .65s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.hero-meta{margin-top:2rem;display:flex;flex-wrap:wrap;gap:.75rem 1.5rem;font-size:.6875rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+.hero-meta strong{color:var(--gold-line);font-weight:600}
+
+/* Sections */
+section{padding:var(--sec) 0}
+.band-paper{background:var(--paper)}
+.band-warm{background:var(--warm-100)}
+.band-navy{background:var(--navy-900);color:#fff}
+.band-navy h2,.band-navy h3{color:#fff}
+.band-ink{background:var(--ink-deep);color:#fff}
+h2{font-family:var(--font-sans);font-size:clamp(1.85rem,3vw,2.75rem);font-weight:600;letter-spacing:-.022em;line-height:1.15;color:var(--navy-900);margin:0;max-width:18ch}
+.band-navy h2,.band-ink h2{color:#fff}
+.lede{margin:1rem 0 0;font-size:1.125rem;font-weight:300;line-height:1.65;color:var(--mute);max-width:38rem}
+.band-navy .lede,.band-ink .lede{color:rgba(255,255,255,.68)}
+
+/* Partner system */
+.layers{margin-top:3rem;display:grid;gap:0;border-top:1px solid rgba(255,255,255,.12)}
+.layer{display:grid;grid-template-columns:3.5rem 1fr;gap:1rem;padding:1.5rem 0;border-bottom:1px solid rgba(255,255,255,.12)}
+@media(min-width:800px){.layers{grid-template-columns:1fr 1fr;gap:0 3rem;border:0}.layer{border-top:1px solid rgba(255,255,255,.12)}.layers .layer:nth-child(-n+2){border-top:0}}
+.layer-num{font-size:.75rem;letter-spacing:.18em;color:var(--gold);padding-top:.35rem;font-weight:600}
+.layer h3{margin:0;font-size:1.125rem;font-weight:600}
+.layer p{margin:.45rem 0 0;font-size:.9375rem;font-weight:300;line-height:1.55;color:rgba(255,255,255,.65);max-width:32rem}
+
+/* Path */
+.steps{margin-top:2.75rem;display:grid;gap:1.75rem}
+@media(min-width:800px){.steps{grid-template-columns:repeat(3,1fr);gap:2.5rem}}
+.step{padding-top:1.1rem;border-top:2px solid var(--navy-900)}
+.step-meta{font-size:.6875rem;letter-spacing:.16em;text-transform:uppercase;color:var(--bronze);font-weight:600;margin-bottom:.65rem}
+.step h3{margin:0;font-size:1.15rem;color:var(--navy-900)}
+.step p{margin:.5rem 0 0;font-size:.9375rem;font-weight:300;color:var(--mute);line-height:1.55}
+.proof{margin-top:3rem;padding-top:1.25rem;border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:.75rem 1.75rem;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.proof strong{color:var(--navy-900);font-weight:600;font-variant-numeric:tabular-nums}
+
+/* Cases */
+.cases{margin-top:2.5rem;display:grid;gap:1rem}
+@media(min-width:800px){.cases{grid-template-columns:repeat(3,1fr)}}
+.case{background:#fff;border:1px solid var(--warm-200);border-radius:.5rem;overflow:hidden;display:flex;flex-direction:column;transition:border-color .15s,box-shadow .15s}
+.case:hover{border-color:var(--gold);box-shadow:0 4px 6px -1px rgba(0,0,0,.08)}
+.case-img{aspect-ratio:4/3;overflow:hidden;background:var(--navy-800)}
+.case-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.case:hover .case-img img{transform:scale(1.04)}
+.case-body{padding:1.15rem 1.2rem 1.35rem;flex:1;display:flex;flex-direction:column}
+.case-product{font-size:.6875rem;letter-spacing:.14em;text-transform:uppercase;color:var(--bronze);font-weight:600}
+.case-market{margin:.35rem 0 .75rem;font-size:.8125rem;color:var(--mute)}
+.case-amount{font-size:1.35rem;font-weight:600;color:var(--navy-900);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.case-asset{margin:.35rem 0 1rem;font-size:.9375rem}
+.case-terms{display:flex;flex-wrap:wrap;gap:.5rem .85rem;font-size:.6875rem;color:var(--mute);letter-spacing:.04em;text-transform:uppercase;margin-bottom:1rem}
+.case-link{margin-top:auto;font-size:.875rem;font-weight:600;color:var(--navy-900);text-decoration:underline;text-underline-offset:3px}
+
+/* Before/after */
+.ba-head{margin-top:3.5rem}
+.ba-grid{margin-top:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(min-width:900px){.ba-grid{grid-template-columns:repeat(3,1fr)}}
+.ba{position:relative;aspect-ratio:4/3;border-radius:.5rem;overflow:hidden;cursor:pointer;border:1px solid var(--warm-200);background:var(--navy-800)}
+.ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .45s ease}
+.ba .after{opacity:0}
+.ba:hover .after,.ba:focus-visible .after{opacity:1}
+.ba:hover .before,.ba:focus-visible .before{opacity:0}
+.ba-label{position:absolute;top:.65rem;left:.65rem;z-index:2;font-size:.625rem;letter-spacing:.14em;text-transform:uppercase;background:rgba(10,22,40,.7);color:#fff;padding:.25rem .45rem;border-radius:2px;font-weight:600}
+.ba-meta{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:.85rem;background:linear-gradient(to top,rgba(10,22,40,.85),transparent);color:#fff;font-size:.6875rem;letter-spacing:.06em;text-transform:uppercase;line-height:1.45}
+
+/* Human */
+.human{display:grid;gap:2.5rem}
+@media(min-width:860px){.human{grid-template-columns:1.15fr .85fr;align-items:end}}
+.quote{margin:0;padding:1.5rem 0 0;border-top:1px solid var(--rule)}
+.quote p{font-family:var(--font-serif);font-style:italic;font-size:clamp(1.35rem,2.2vw,1.75rem);line-height:1.35;color:var(--navy-900);margin:0 0 1rem}
+.quote footer{font-size:.75rem;color:var(--mute);letter-spacing:.04em}
+
+/* Capture */
+.capture{display:grid;gap:3rem}
+@media(min-width:900px){.capture{grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}}
+.form{background:#fff;border:1px solid var(--warm-200);border-radius:.5rem;padding:1.5rem 1.5rem 1.65rem;box-shadow:0 1px 2px rgba(31,78,120,.06)}
+.form h3{margin:0 0 1.15rem;font-size:1.25rem;color:var(--navy-900)}
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:.8125rem;font-weight:500;margin-bottom:.35rem;color:var(--navy-900)}
+.field input,.field select{width:100%;min-height:48px;padding:.75rem 1rem;border:1px solid var(--warm-200);border-radius:.25rem;background:#fff;color:var(--charcoal);outline:none}
+.field input:focus,.field select:focus{border-color:var(--bronze);box-shadow:0 0 0 2px rgba(153,116,54,.2)}
+.field .err{display:none;margin:.3rem 0 0;font-size:.75rem;color:#c0392b}
+.field.invalid .err{display:block}
+.field.invalid input,.field.invalid select{border-color:#c0392b}
+.trust{margin:.9rem 0 0;font-size:.6875rem;line-height:1.55;color:var(--mute)}
+.recovery{margin:.85rem 0 0;display:flex;gap:1rem;flex-wrap:wrap}
+.recovery a{font-size:.8125rem;color:var(--mute);text-decoration:underline;text-underline-offset:3px}
+.form[data-state=thanks] .fields{display:none}
+.thanks{display:none}
+.form[data-state=thanks] .thanks{display:block}
+.thanks h3{margin-bottom:.5rem}
+.thanks p{color:var(--mute);font-weight:300;margin:0 0 1.25rem}
+.thanks-actions{display:flex;flex-direction:column;gap:.65rem}
+
+.faq details{border-bottom:1px solid rgba(255,255,255,.12);padding:1rem 0}
+.faq summary{cursor:pointer;font-weight:600;list-style:none;color:#fff}
+.faq summary::-webkit-details-marker{display:none}
+.faq p{margin:.65rem 0 0;font-size:.9375rem;font-weight:300;color:rgba(255,255,255,.68);line-height:1.55}
+
+.footer{padding:3rem 0 6rem;background:var(--ink-deep);color:rgba(255,255,255,.55);font-size:.875rem;border-top:1px solid rgba(255,255,255,.08)}
+.footer-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1.5rem;margin-bottom:2rem}
+.footer-brand{color:#fff;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.footer-tag{margin:.4rem 0 0;font-size:.8125rem}
+.footer-nav{display:flex;flex-wrap:wrap;gap:.75rem 1.25rem}
+.footer-nav a:hover{color:#fff}
+.footer-legal{font-size:.6875rem;line-height:1.65;border-top:1px solid rgba(255,255,255,.1);padding-top:1.25rem}
+
+.sticky{position:fixed;bottom:0;left:0;right:0;z-index:60;display:grid;grid-template-columns:1fr 1fr;gap:.5rem;padding:.65rem var(--pad) calc(.65rem + env(safe-area-inset-bottom));background:rgba(251,249,244,.95);backdrop-filter:blur(10px);border-top:1px solid var(--rule);transition:transform .2s,opacity .2s}
+.sticky.is-hidden{transform:translateY(110%);opacity:0;pointer-events:none}
+@media(min-width:900px){.sticky{display:none}.footer{padding-bottom:3rem}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="mockbar">v2 mock · your live brand system · conversion spine · not production</div>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#"><img src="https://www.818capitalpartners.com/logo.png" alt="" />818 Capital</a>
+    <ul class="nav-links">
+      <li><a href="#system">System</a></li>
+      <li><a href="#path">How it works</a></li>
+      <li><a href="#funded">Funded</a></li>
+      <li><a href="#desk">Desk</a></li>
+      <li><a class="quiet" href="#brokers">Brokers</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a class="nav-phone" href="tel:19179939194">(917) 993-9194</a>
+      <a class="btn btn-primary" href="#capture">Enter Dealroom</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero" aria-label="Hero">
+  <div class="hero-media" aria-hidden="true">
+    <img src="https://www.818capitalpartners.com/brand/properties/PROMPT-30_2771-Royal-Palm-Ave.jpg" alt="" />
+  </div>
+  <div class="hero-scrim" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <p class="hero-brand">818 Capital</p>
+    <h1>The question isn't how many deals you've done. It's how many you could do, <em>with the right partner.</em></h1>
+    <p class="hero-lede">One desk. AI that prices and structures. Dealroom that syncs borrower, broker, title, and underwriter — term sheet in 24 hours, wire in 14–21.</p>
+    <div class="cta">
+      <a class="btn btn-white" href="#capture">Enter Dealroom</a>
+      <a class="btn btn-on-dark" href="tel:19179939194">Call (917) 993-9194</a>
+    </div>
+    <div class="hero-meta">
+      <span><strong>8s</strong> AI pricing</span>
+      <span><strong>24h</strong> term sheet</span>
+      <span><strong>14–21d</strong> close</span>
+      <span><strong>48</strong> states</span>
+    </div>
+  </div>
+</section>
+
+<section class="band-navy" id="system">
+  <div class="wrap">
+    <p class="eyebrow" style="color:var(--gold)">The Partner System</p>
+    <h2>The right partner isn’t a phone number. It’s a desk that prices, structures, and syncs the whole file.</h2>
+    <hr class="rule" />
+    <p class="lede">Every 818 deal runs on one rail — from first scenario to wire. No handoffs. No status black holes.</p>
+    <div class="layers">
+      <article class="layer"><div class="layer-num">01</div><div><h3>Price</h3><p>AI prices DSCR, flip, bridge, and STR on the same address in seconds. See which structure wins before the call.</p></div></article>
+      <article class="layer"><div class="layer-num">02</div><div><h3>Structure</h3><p>Flip Lab, STR Signal, and Sponsor Brief underwrite the project — not just the credit.</p></div></article>
+      <article class="layer"><div class="layer-num">03</div><div><h3>Room</h3><p>Dealroom holds the file. Borrower, broker, title, and underwriter work the same deal.</p></div></article>
+      <article class="layer"><div class="layer-num">04</div><div><h3>Sync</h3><p>Portal pushes milestones to every party. You stop chasing. We stop repeating.</p></div></article>
+    </div>
+    <div class="cta">
+      <a class="btn btn-white" href="#capture">Run your scenario in Dealroom</a>
+      <a class="btn btn-on-dark" href="#path">See how a deal moves</a>
+    </div>
+  </div>
+</section>
+
+<section class="band-paper" id="path">
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h2>Scenario. Term sheet. Wire. On one rail.</h2>
+    <hr class="rule" />
+    <p class="lede">Same underwriter from intake to funding. The platform does the speed work. The desk owns the relationship.</p>
+    <div class="steps">
+      <article class="step"><div class="step-meta">01 · ~2 minutes</div><h3>Send the deal</h3><p>Address, numbers, exit. Soft read same day — no credit pull.</p></article>
+      <article class="step"><div class="step-meta">02 · 8s · 24h</div><h3>Get structured terms</h3><p>AI pricing + human underwrite. Ranked structure in 24 hours.</p></article>
+      <article class="step"><div class="step-meta">03 · 14–21 days</div><h3>Close in Dealroom</h3><p>Conditions, title, and draws stay synced until funds hit.</p></article>
+    </div>
+    <div class="proof">
+      <span><strong>8s</strong> AI pricing</span>
+      <span><strong>24h</strong> term sheet</span>
+      <span><strong>17d</strong> median close</span>
+      <span><strong>62%</strong> repeat</span>
+      <span><strong>$184M</strong> funded · 12 mo</span>
+    </div>
+    <div class="cta"><a class="btn btn-primary" href="#capture">Open Dealroom</a></div>
+  </div>
+</section>
+
+<section class="band-warm" id="funded">
+  <div class="wrap">
+    <p class="eyebrow">Casework · funded</p>
+    <h2>How deals actually move when everyone’s on the same rail.</h2>
+    <hr class="rule" />
+    <p class="lede">Real closes. Real timelines. Same desk.</p>
+    <div class="cases">
+      <a class="case" href="#">
+        <div class="case-img"><img src="https://www.818capitalpartners.com/brand/properties/PROMPT-30_2771-Royal-Palm-Ave.jpg" alt="Fort Myers multifamily" /></div>
+        <div class="case-body">
+          <div class="case-product">Multifamily</div>
+          <div class="case-market">Fort Myers · FL · 818-2026-0028</div>
+          <div class="case-amount">$3,150,000</div>
+          <div class="case-asset">33-unit multifamily</div>
+          <div class="case-terms"><span>75% LTV</span><span>Funded</span></div>
+          <span class="case-link">Read the case study</span>
+        </div>
+      </a>
+      <a class="case" href="#">
+        <div class="case-img"><img src="https://www.818capitalpartners.com/just-funded/colleyville-flip-vision.jpg" alt="Colleyville flip" /></div>
+        <div class="case-body">
+          <div class="case-product">Fix &amp; Flip</div>
+          <div class="case-market">Colleyville · TX · 818-2026-0031</div>
+          <div class="case-amount">$1,456,500</div>
+          <div class="case-asset">Luxury single-family flip</div>
+          <div class="case-terms"><span>90% LTC</span><span>12-day close</span></div>
+          <span class="case-link">Read the case study</span>
+        </div>
+      </a>
+      <a class="case" href="#">
+        <div class="case-img"><img src="https://www.818capitalpartners.com/brand/properties/PROMPT-25_265-Arroyo-Pinon.jpg" alt="Sedona STR" /></div>
+        <div class="case-body">
+          <div class="case-product">STR</div>
+          <div class="case-market">Sedona · AZ</div>
+          <div class="case-amount">$759,750</div>
+          <div class="case-asset">Single-family short-term rental</div>
+          <div class="case-terms"><span>75% LTV</span><span>Funded</span></div>
+          <span class="case-link">Read the case study</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="ba-head">
+      <h2 style="font-size:clamp(1.4rem,2.2vw,1.85rem);max-width:22ch">Real rehab. Real close. Same desk.</h2>
+      <p class="lede" style="margin-top:.5rem">Hover or tap to swap before → after.</p>
+    </div>
+    <div class="ba-grid">
+      <div class="ba" tabindex="0" role="img" aria-label="Fairland before and after">
+        <img class="before" src="https://www.818capitalpartners.com/brand/properties/PROMPT-03_13429-Fairland_BEFORE.jpg" alt="" />
+        <img class="after" src="https://www.818capitalpartners.com/brand/properties/PROMPT-03_13429-Fairland_AFTER.jpg" alt="" />
+        <span class="ba-label">Before / After</span>
+        <div class="ba-meta">Fairland · funded flip</div>
+      </div>
+      <div class="ba" tabindex="0" role="img" aria-label="7th Street before and after">
+        <img class="before" src="https://www.818capitalpartners.com/brand/properties/PROMPT-05_700-7th-St_BEFORE.jpg" alt="" />
+        <img class="after" src="https://www.818capitalpartners.com/brand/properties/PROMPT-05_700-7th-St_AFTER.jpg" alt="" />
+        <span class="ba-label">Before / After</span>
+        <div class="ba-meta">700 7th St · funded flip</div>
+      </div>
+      <div class="ba" tabindex="0" role="img" aria-label="Stonehenge before and after">
+        <img class="before" src="https://www.818capitalpartners.com/brand/properties/PROMPT-06_5-Stonehenge_BEFORE.jpg" alt="" />
+        <img class="after" src="https://www.818capitalpartners.com/brand/properties/PROMPT-06_5-Stonehenge_AFTER.jpg" alt="" />
+        <span class="ba-label">Before / After</span>
+        <div class="ba-meta">Stonehenge · funded flip</div>
+      </div>
+    </div>
+    <div class="cta"><a class="btn btn-primary" href="#capture">Send your scenario</a></div>
+  </div>
+</section>
+
+<section class="band-paper" id="desk">
+  <div class="wrap human">
+    <div>
+      <p class="eyebrow">The desk</p>
+      <h2>Built by operators. Staffed like a partnership.</h2>
+      <hr class="rule" />
+      <p class="lede">818 exists because capable operators kept losing deals to opaque lenders and lost files. You get a dedicated underwriting path from intake to wire — and a Dealroom so the rest of the file keeps up.</p>
+      <p class="note" style="margin-top:1.25rem;letter-spacing:.04em">Ravi Punn · Founder &amp; Principal</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="tel:19179939194">Call the desk</a>
+        <a class="btn btn-secondary" href="#capture">Continue in Dealroom</a>
+      </div>
+    </div>
+    <blockquote class="quote">
+      <p>“Closed in 11 days on a fix-and-flip the bank had killed twice. Same underwriter answered the phone every time.”</p>
+      <footer>Active flipper · Phoenix, AZ · Quotes anonymized</footer>
+    </blockquote>
+  </div>
+</section>
+
+<section class="band-ink" id="capture">
+  <div class="wrap capture">
+    <div>
+      <p class="eyebrow" style="color:var(--gold)">Enter the system</p>
+      <h2>Pick up where a good partner should start — in the room.</h2>
+      <hr class="rule" />
+      <p class="lede">Soft quote first. Full file when you’re ready. Business-purpose investment real estate only.</p>
+      <div class="faq" style="margin-top:2.5rem">
+        <p class="eyebrow" style="color:var(--gold);margin-bottom:.25rem">Common questions</p>
+        <details><summary>Do you do consumer loans?</summary><p>No. 818 is business-purpose only — non-owner-occupied investment real estate.</p></details>
+        <details><summary>What states do you lend in?</summary><p>48 states (everything except Vermont and North Dakota). NMLS #2832335.</p></details>
+        <details><summary>What’s the smallest loan?</summary><p>About $100K fix-and-flip · $150K DSCR. If it’s too small to deliver real value, we’ll say so.</p></details>
+        <details><summary>Can I talk to a human before I submit?</summary><p>Yes. Call (917) 993-9194. Same path from intake to wire — Dealroom keeps the file visible either way.</p></details>
+        <details><summary>Will my information be shared?</summary><p>No. We don’t sell borrower data. Only people on your file see your numbers.</p></details>
+      </div>
+    </div>
+    <form class="form" id="scenario-form" data-state="form" novalidate>
+      <div class="fields">
+        <h3>Run your scenario</h3>
+        <div class="field" data-f="address"><label for="address">Property address</label><input id="address" name="address" autocomplete="street-address" placeholder="Street, city, state" required /><p class="err">Enter a full property address</p></div>
+        <div class="field" data-f="amount"><label for="amount">Loan or purchase amount</label><input id="amount" name="amount" inputmode="decimal" placeholder="e.g. $620,000" required /><p class="err">Enter an amount (min soft-quote $50,000)</p></div>
+        <div class="field" data-f="intent"><label for="intent">What are you doing?</label><select id="intent" name="intent" required><option value="">Select</option><option>DSCR</option><option>Fix &amp; Flip</option><option>Bridge</option><option>STR</option><option>Multifamily</option><option>Construction</option><option>Not sure</option></select><p class="err">Select what you’re doing</p></div>
+        <div class="field" data-f="timeline"><label for="timeline">When do you need to close?</label><select id="timeline" name="timeline" required><option value="">Select</option><option>ASAP</option><option>30 days</option><option>60 days</option><option>Exploring</option></select><p class="err">Select a timeline</p></div>
+        <div class="field" data-f="contact"><label for="contact">Mobile or email</label><input id="contact" name="contact" autocomplete="email" placeholder="We’ll send the soft read here" required /><p class="err">Enter a mobile number or email</p></div>
+        <button class="btn btn-primary btn-block" type="submit">Enter Dealroom</button>
+        <p class="trust">No credit pull on soft quote · Confidential · 48 states (excl. VT &amp; ND)<br/>NMLS #2832335 · Min ~$100K flip / $150K DSCR · Business-purpose only</p>
+        <div class="recovery"><a href="#">Prefer WhatsApp?</a><a href="#">Book 15 minutes</a></div>
+      </div>
+      <div class="thanks" aria-live="polite">
+        <h3>You’re in the room.</h3>
+        <p>Soft read is on the way. Same desk will follow up — usually same day.</p>
+        <div class="thanks-actions">
+          <a class="btn btn-primary" href="#">Add the PSA or docs</a>
+          <a class="btn btn-secondary" href="tel:19179939194">Call the desk</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<footer class="footer" id="brokers">
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">818 Capital Partners</div>
+        <p class="footer-tag">The relationship behind the capital.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="#system">Programs</a><a href="#funded">Funded</a><a href="#path">How it works</a><a href="#desk">About</a><a href="#">Brokers</a><a href="#capture">Dealroom</a>
+      </nav>
+    </div>
+    <div class="footer-legal">NMLS #2832335 · 110 Wall Street, New York, NY 10005<br/>deals@818capitalpartners.com · (917) 993-9194<br/>Business-purpose lending only. Not a consumer mortgage lender.</div>
+  </div>
+</footer>
+
+<div class="sticky" id="sticky">
+  <a class="btn btn-primary" href="#capture">Enter Dealroom</a>
+  <a class="btn btn-secondary" href="tel:19179939194">Call</a>
+</div>
+
+<script>
+(function(){
+  const form=document.getElementById('scenario-form');
+  const sticky=document.getElementById('sticky');
+  const capture=document.getElementById('capture');
+  function parseAmount(raw){const n=Number(String(raw).replace(/[^0-9.]/g,''));return Number.isFinite(n)?n:NaN}
+  function isContact(v){const s=v.trim();if(s.includes('@'))return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);const d=s.replace(/\D/g,'');return d.length===10||(d.length===11&&d.startsWith('1'))}
+  function inv(el,on){el.classList.toggle('invalid',on)}
+  form.addEventListener('submit',function(e){
+    e.preventDefault();let ok=true;
+    inv(form.address.closest('.field'),form.address.value.trim().length<8);if(form.address.value.trim().length<8)ok=false;
+    const amt=parseAmount(form.amount.value);inv(form.amount.closest('.field'),!(amt>=50000));if(!(amt>=50000))ok=false;
+    inv(form.intent.closest('.field'),!form.intent.value);if(!form.intent.value)ok=false;
+    inv(form.timeline.closest('.field'),!form.timeline.value);if(!form.timeline.value)ok=false;
+    inv(form.contact.closest('.field'),!isContact(form.contact.value));if(!isContact(form.contact.value))ok=false;
+    if(!ok){const f=form.querySelector('.field.invalid input,.field.invalid select');if(f)f.focus();return}
+    form.dataset.state='thanks';
+  });
+  if('IntersectionObserver' in window && capture && sticky){
+    new IntersectionObserver(es=>es.forEach(e=>sticky.classList.toggle('is-hidden',e.isIntersecting)),{threshold:.2}).observe(capture);
+  }
+})();
+</script>
+</body>
+</html>
